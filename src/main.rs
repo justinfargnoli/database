@@ -12,3 +12,7 @@ pub fn parse(sql_statments: String) -> Result<Vec<Statement>, sqlparser::parser:
 
     sqlparser::parser::Parser::parse_sql(&dialect, sql_statments)
 }
+
+mod lower {}
+
+mod database {}
