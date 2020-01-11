@@ -1,15 +1,14 @@
-use sqlparser::dialect::GenericDialect;
-use sqlparser::parser::Parser;
+use sqlparser::ast::*;
 
 fn main() {
-    let dialect = GenericDialect {}; // or AnsiDialect
+    let sql_statments = "INSERT INTO People \
+                         VALUES ('Justin');";
 
-    let sql = "SELECT a, b, 123, myfunc(b) \
-               FROM table_1 \
-               WHERE a > b AND b < 100 \
-               ORDER BY a DESC, b";
+    parse(sql_statments.to_string()).unwrap();
+}
 
-    let ast = Parser::parse_sql(&dialect, sql.to_string()).unwrap();
+pub fn parse(sql_statments: String) -> Result<Vec<Statement>, sqlparser::parser::ParserError> {
+    let dialect = sqlparser::dialect::GenericDialect {}; // or AnsiDialect
 
-    println!("AST: {:?}", ast);
+    sqlparser::parser::Parser::parse_sql(&dialect, sql_statments)
 }
