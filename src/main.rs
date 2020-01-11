@@ -4,7 +4,9 @@ fn main() {
     let sql_statments = "INSERT INTO People \
                          VALUES ('Justin');";
 
-    parse(sql_statments.to_string()).unwrap();
+    let statments = parse(sql_statments.to_string()).unwrap();
+
+    lowering::perform(statments);
 }
 
 pub fn parse(sql_statments: String) -> Result<Vec<Statement>, sqlparser::parser::ParserError> {
@@ -13,8 +15,22 @@ pub fn parse(sql_statments: String) -> Result<Vec<Statement>, sqlparser::parser:
     sqlparser::parser::Parser::parse_sql(&dialect, sql_statments)
 }
 
-mod lowering {}
+mod lowering {
+    use sqlparser::ast::Statement;
+
+    pub fn perform(statments: Vec<Statement>) {
+        // statments.iter()
+    }
+}
 
 mod internals {
+    use std::collections::{BTreeSet, HashMap};
 
+    struct Database {
+        pub database: HashMap<String, Table>,
+    }
+
+    struct Table {
+        pub table: BTreeSet<Vec<String>>,
+    }
 }
